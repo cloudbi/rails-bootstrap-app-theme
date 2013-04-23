@@ -40,6 +40,15 @@ require 'rails-bootstrap-app-theme'
 
 ## Layouts ##
 
+The following layouts are currently supported:
+
+- `fluid_right_sidebar` a fluid layout with a right sidebar using a span9 | span3 split
+- `fluid_left_sidebar`  a fluid layout with a left sidebar using a span3 | span9 split
+- `fluid_full_width` a fluid layout with the content taking up the full width using a span12
+
+If you only want to use a layout in some controllers, then you can set the layout in those
+controllers, and the rest of the application will continue to use your default application layout (`application.html.erb`).
+
 Layouts are chosen using the standard Rails `layout` helper:
 
 ```ruby
@@ -48,17 +57,69 @@ class ApplicationController < ActionController::Base
 end
 ```
 
-RBAT supports the following layouts:
+## Customising the Layout ##
 
-- `fluid_right_sidebar` a fluid layout with a right sidebar using a span9 | span3 split
-- `fluid_left_sidebar`  a fluid layout with a left sidebar using a span3 | span9 split
-- `fluid_full_width` a fluid layout with the content taking up the full width using a span12
+Once you have selected a layout you can start adding navbar and sidebar content. That's done by
+providing some helpers within your application which if they exist are be called and used to
+fill in the empty spaces.
 
-If you only want to use a layout in some controllers, then you can set the layout in those
-controllers, and the rest of the application will continue to use your default `application.html.erb` layout.
+### The Navbar ###
 
-## Hello, World! ##
+The left and right navbar areas at the top of the page are populated in the same way. The left
+navbar is the links on the left hand side, while the right navbar is the links on the right.
 
+To populate them create a helper called either `navbar_left` or `navbar_right`. The method
+will be passed a NavigationBuilder instance which can be filled with items.
+
+```ruby
+module ApplicationHelper
+  def navbar_left(menu)
+    menu.item 'Home', root_path
+    menu.item 'News', news_path, :active => true
+  end
+
+  def navbar_right(menu)
+    menu.item 'Profile', profile_path
+    menu.item icon('icon-off'), destroy_user_session_path, :method => :delete
+  end
+end
+```
+
+You can pass an image path as the first argument to a menu item to create an image based link. This is really easy using the `icon` helper, which gives access to all of the Font Awesome images.
+
+### The Sidebar ###
+
+The sidebar is filled by a `sidebar` helper if one exists.
+
+    module ApplicationHelper
+      def sidebar
+        content_tag("div", :class => "block") do
+          content_tag("ul", :class => "navigation") do
+            content_tag("li", link_to("News Item 3", news_path(3)))
+          end
+        end
+      end
+    end
+
+It's probably easier to render a partial here, especially if your sidebar is going to change frequently.
+
+### Hiding the Sidebar ###
+
+If you don't want a sidebar at all you can expand the content area to fill the available space. Set the `full_width`
+instance variable to do so.
+
+    class ApplicationController < ActionController::Base
+      before_filter :hide_sidebar
+
+      def hide_sidebar
+        @full_width = true
+      end
+      protected :hide_sidebar
+    end
+
+## Birds Eye View ##
+
+RBAT functionality falls into the
 A basic view, with a single content block, and a page title would look something like this.
 
     <% provide :title, "Hello, world!" %>
@@ -184,60 +245,7 @@ will be called at the appropriate place:
       content_tag("script", "console.log('This is in the header now.')")
     end
 
-## Customising the Layout ##
 
-You probably want to add a few menus of your own, and maybe a sidebar as well. That's done by
-providing some helpers within your application which if they exist will be called by Activo to
-fill in the empty spaces.
-
-### Navigation ###
-
-The main and user navigation areas at the top of the page are populated in the same way. The main
-navigation is the text based one on the left hand side, while the user navigation is the row of icons
-on the right.
-
-To populate them create a helper called either `main_navigation` or `user_navigation`. The method
-will be passed a NavigationBuilder instance which can be filled with items.
-
-    module ApplicationHelper
-      def main_navigation(menu)
-        menu.item "Home", root_path
-        menu.item "News", news_path, :active => true
-      end
-    end
-
-When populating the user navigation you probably want to make the first argument a call to `image_tag`
-since the space available isn't big enough for anything other icons.
-
-### The Sidebar ###
-
-The sidebar is filled by a `sidebar` helper if one exists.
-
-    module ApplicationHelper
-      def sidebar
-        content_tag("div", :class => "block") do
-          content_tag("ul", :class => "navigation") do
-            content_tag("li", link_to("News Item 3", news_path(3)))
-          end
-        end
-      end
-    end
-
-It's probably easier to render a partial here, especially if your sidebar is going to change frequently.
-
-### Hiding the Sidebar ###
-
-If you don't want a sidebar at all you can expand the content area to fill the available space. Set the `full_width`
-instance variable to do so.
-
-    class ApplicationController < ActionController::Base
-      before_filter :hide_sidebar
-
-      def hide_sidebar
-        @full_width = true
-      end
-      protected :hide_sidebar
-    end
 
 ## Using Formtastic ##
 
