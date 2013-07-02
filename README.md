@@ -183,8 +183,9 @@ To display icons use the `icon` helper. Rails Bootstrap App Theme includes the F
 which are licensed under the Creative Commons Attribution 3.0 license. It's up to you to either
 comply with that license, or replace them with something else.
 
-    <%= icon "delete", :large, :alt => "Delete Item" %>
-
+```erb
+<%= icon "delete", :large, :alt => "Delete Item" %>
+```
 The first argument is the filename of the icon, without extension.
 
 The second is the size. :small gives a 16x16 icon, :large gives 32x32.
@@ -196,6 +197,7 @@ included in the image tag. Further options will probably be supported in the fut
 
 The `navigation` helper is used to add some tabs to the top of a content box.
 
+```erb
 <% page_title "About Us" %>
 
 <%= content_box :headline => 'About Us' do |box| %>
@@ -207,7 +209,7 @@ The `navigation` helper is used to add some tabs to the top of a content box.
   <p>We're an amazing company! We do things!</p>
   <p>To find out more, click the tabs above.</p>
 <% end %>
-
+```
 Each item can be passed a hash of options. Valid options are:
 
   active (boolean): If set to true, the tab will be highlighted as the current tab.
@@ -219,6 +221,7 @@ Each item can be passed a hash of options. Valid options are:
 These are much like tabs, but appear at the bottom of a block as a trail of pages.
 They're added using the `breadcrumbs` helper.
 
+```erb
 <% page_title "News Item 3" %>
 
 <%= content_box :headline => 'News Item 3' do |box| %>
@@ -230,6 +233,7 @@ They're added using the `breadcrumbs` helper.
 
   <p>We've got some new news here. Read all about it!</p>
 <% end %>
+```
 
 Valid options are the same as for tabs.
 
@@ -237,6 +241,7 @@ Valid options are the same as for tabs.
 
 To add a set of buttons to the top of a content_box_, use the `controls` helper.
 
+```erb
 <% page_title "News Item 3 (Admin Mode)" %>
 
 <%= content_box :headline => 'New Item 3' do |box| %>
@@ -246,7 +251,7 @@ To add a set of buttons to the top of a content_box_, use the `controls` helper.
   end %>
   <p>We've got some new news here. Read all about it!</p>
 <% end %>
-
+```
 Valid options are the same as for tabs, with an additional `icon` option, which will be passed
 to the `icon` helper.
 
@@ -258,20 +263,24 @@ To add content to the header, you have two choices, depending on how often you n
 
 If you just need to add something on a single page, provide some content for the head block:
 
+```erb
 <% content_for :head do %>
   <script>
     console.log('This is in the header now.')
   </script>
 <% end %>
+```
 
 ### def head ###
 
 If you're going to want the content more regularly, you can create a helper called head, which
 will be called at the appropriate place:
 
+```ruby
 def head
   content_tag("script", "console.log('This is in the header now.')")
 end
+```
 
 
 
