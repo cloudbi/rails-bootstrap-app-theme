@@ -8,11 +8,9 @@ The engine supports a few layouts that cover most requirements: namely a left si
 
 The engine uses the [bootstrap-saas][2] gem to source Bootstrap. That means you can use the variables and mixins available in bootstrap-saas in your project. That's very useful to easily set things like the base font family and size for your project.
 
-*Rails Bootstrap App Theme* is abbreviated to *RBAT* for the rest of the document.
-
 ## Installing ##
 
-To install RBAT add the following line to your application's Gemfile:
+To install Rails Bootstrap App Theme add the following line to your application's Gemfile:
 
 ```ruby
 gem 'rails-bootstrap-app-theme'
@@ -75,83 +73,113 @@ will be passed a NavigationBuilder instance which can be filled with items.
 module ApplicationHelper
   def navbar_left(menu)
     menu.item 'Home', root_path
-    menu.item 'News', news_path, :active => true
+    menu.item 'News', news_path, active: true
   end
 
   def navbar_right(menu)
     menu.item 'Profile', profile_path
-    menu.item icon('icon-off'), destroy_user_session_path, :method => :delete
+    menu.item icon('icon-off'), destroy_user_session_path, method: :delete
   end
 end
 ```
 
 You can pass an image path as the first argument to a menu item to create an image based link. This is really easy using the `icon` helper, which gives access to all of the Font Awesome images.
 
+You can also provide a `brand` helper that be called to setup your sites main brand text and link.
+
+```ruby
+module ApplicationHelper
+  def brand(link)
+    link.item 'Brand', root_path
+  end
+end
+```
+
 ### The Sidebar ###
 
 The sidebar is filled by a `sidebar` helper if one exists.
 
-    module ApplicationHelper
-      def sidebar
-        content_tag("div", :class => "block") do
-          content_tag("ul", :class => "navigation") do
-            content_tag("li", link_to("News Item 3", news_path(3)))
-          end
-        end
+```ruby
+module ApplicationHelper
+  def sidebar
+    content_tag("div", :class => "block") do
+      content_tag("ul", :class => "navigation") do
+        content_tag("li", link_to("News Item 3", news_path(3)))
       end
     end
+  end
+end
+```
 
 It's probably easier to render a partial here, especially if your sidebar is going to change frequently.
 
-### Hiding the Sidebar ###
+```ruby
+module ApplicationHelper
+  def sidebar
+  render 'shared/sidebar'
+  end
+end
+```
 
-If you don't want a sidebar at all you can expand the content area to fill the available space. Set the `full_width`
-instance variable to do so.
+You can also use a `content_for` block to pass html for rendering on the sidebar.
 
-    class ApplicationController < ActionController::Base
-      before_filter :hide_sidebar
+```erb
+<% content_for :sidebar do %>
+  <%= sidebar_navigation do |nav| %>
+    <% nav.header "Sidebar Header" %>
+    <% nav.item "New Person", new_person_path, class: 'active' %>
+  <% end %>
+<% end %>
+```
 
-      def hide_sidebar
-        @full_width = true
-      end
-      protected :hide_sidebar
-    end
+### Sidebar Navigation ###
 
-## Birds Eye View ##
+There is also a  `sidebar_navigation` helper that allows you create a vertical navigation list with headers a links.
 
-RBAT functionality falls into the
-A basic view, with a single content block, and a page title would look something like this.
-
-    <% provide :title, "Hello, world!" %>
-
-    <%= content_box :headline => 'Hello, World!' do %>
-      <p>This is a basic Activo template.</p>
-    <% end %>
+```erb
+<%= sidebar_navigation do |nav| %>
+  <% nav.header "Sidebar Header" %>
+  <% nav.item "New Person", new_person_path, class: 'active' %>
+<% end %>
+```
 
 ## View Helpers ##
 
-There are a few view helpers available to use which deal with some of the more awkward parts of
-Activo.
+### The Content Box ###
+
+Views revolve around the idea of a content box. A basic view, with a single content box, and a page title would look something like this.
+
+```erb
+<% provide :title, "Hello, world!" %>
+
+<%= content_box :headline => 'Hello, World!' do %>
+  <p>This is a basic Rails Bootstrap App Theme template.</p>
+<% end %>
+```
 
 ### Setting the Page Title ###
 
 To set the page title from a view use the `provide` helper:
 
-    <% provide :title, "My Lovely Page" %>
+```erb
+<% provide :title, "My Awesome Page" %>
+```
 
 By default if no title has been set then it will be "Untitled Page", but you can set an alternative
 by setting `@title` in your application controller:
 
-    class ApplicationController < ActionController::Base
-      before_filter :set_default_title
-      def set_default_title
-        @title = "My Site"
-      end
-    end
+```ruby
+class ApplicationController < ActionController::Base
+  before_filter :set_default_title
+  def set_default_title
+    @title = "My Site"
+  end
+end
+```
 
 ### Icons ###
 
-To display icons use the `icon` helper. Activo includes the Fatcow icons from www.fatcow.com/free-icons,
+To display icons use the `icon` helper. Rails Bootstrap App Theme includes the Fatcow icons from www.fatcow.com/free-icons,
 which are licensed under the Creative Commons Attribution 3.0 license. It's up to you to either
 comply with that license, or replace them with something else.
 
@@ -168,17 +196,17 @@ included in the image tag. Further options will probably be supported in the fut
 
 The `navigation` helper is used to add some tabs to the top of a content box.
 
-    <% page_title "About Us" %>
+<% page_title "About Us" %>
 
-    <%= content_box :headline => 'About Us' do |box| %>
-      <%= box.navigation do |n|
-        n.item "The Company", about_path("company"), :active => true
-        n.item "Our Offices", about_path("offices")
-        n.item "Jobs", about_path("jobs"), :class => "highlighted"
-      end %>
-      <p>We're an amazing company! We do things!</p>
-      <p>To find out more, click the tabs above.</p>
-    <% end %>
+<%= content_box :headline => 'About Us' do |box| %>
+  <%= box.navigation do |n|
+    n.item "The Company", about_path("company"), :active => true
+    n.item "Our Offices", about_path("offices")
+    n.item "Jobs", about_path("jobs"), :class => "highlighted"
+  end %>
+  <p>We're an amazing company! We do things!</p>
+  <p>To find out more, click the tabs above.</p>
+<% end %>
 
 Each item can be passed a hash of options. Valid options are:
 
@@ -191,17 +219,17 @@ Each item can be passed a hash of options. Valid options are:
 These are much like tabs, but appear at the bottom of a block as a trail of pages.
 They're added using the `breadcrumbs` helper.
 
-    <% page_title "News Item 3" %>
+<% page_title "News Item 3" %>
 
-    <%= content_box :headline => 'News Item 3' do |box| %>
-      <%= box.breadcrumbs do |b|
-        b.item "Home", root_path
-        b.item "News", news_path
-        b.item "News Item 3", news_path(3), :active => true
-      end %>
+<%= content_box :headline => 'News Item 3' do |box| %>
+  <%= box.breadcrumbs do |b|
+    b.item "Home", root_path
+    b.item "News", news_path
+    b.item "News Item 3", news_path(3), :active => true
+  end %>
 
-      <p>We've got some new news here. Read all about it!</p>
-    <% end %>
+  <p>We've got some new news here. Read all about it!</p>
+<% end %>
 
 Valid options are the same as for tabs.
 
@@ -209,15 +237,15 @@ Valid options are the same as for tabs.
 
 To add a set of buttons to the top of a content_box_, use the `controls` helper.
 
-    <% page_title "News Item 3 (Admin Mode)" %>
+<% page_title "News Item 3 (Admin Mode)" %>
 
-    <%= content_box :headline => 'New Item 3' do |box| %>
-      <%= box.controls do |c|
-        c.item "Delete", news_path(3), :link_options => { :method => :delete, :confirm => "Really delete News Item 3?" }, :icon => "delete"
-        c.item "Edit", edit_news_path(3), :icon => "edit"
-      end %>
-      <p>We've got some new news here. Read all about it!</p>
-    <% end %>
+<%= content_box :headline => 'New Item 3' do |box| %>
+  <%= box.controls do |c|
+    c.item "Delete", news_path(3), :link_options => { :method => :delete, :confirm => "Really delete News Item 3?" }, :icon => "delete"
+    c.item "Edit", edit_news_path(3), :icon => "edit"
+  end %>
+  <p>We've got some new news here. Read all about it!</p>
+<% end %>
 
 Valid options are the same as for tabs, with an additional `icon` option, which will be passed
 to the `icon` helper.
@@ -230,30 +258,22 @@ To add content to the header, you have two choices, depending on how often you n
 
 If you just need to add something on a single page, provide some content for the head block:
 
-    <% content_for :head do %>
-      <script>
-        console.log('This is in the header now.')
-      </script>
-    <% end %>
+<% content_for :head do %>
+  <script>
+    console.log('This is in the header now.')
+  </script>
+<% end %>
 
 ### def head ###
 
 If you're going to want the content more regularly, you can create a helper called head, which
 will be called at the appropriate place:
 
-    def head
-      content_tag("script", "console.log('This is in the header now.')")
-    end
+def head
+  content_tag("script", "console.log('This is in the header now.')")
+end
 
 
-
-## Using Formtastic ##
-
-Activo is already set up to be used with Formtastic, but doesn't directly depend on it, since form
-builders are very much a matter of taste.
-
-If you would like to use it (and I recommend it), then just add `gem 'formtastic'` to your Gemfile, and everything
-will work out of the box.
 
 ## Contributing ##
 
@@ -267,7 +287,7 @@ The test suite can be run by using `rake spec`.
 
 ## Credits ##
 
-For the original (and beautiful) Activo web app theme: David Francisco (http://github.com/dmfrancisco/activo)
+For the original (and beautiful) Rails Bootstrap App Theme web app theme: David Francisco (http://github.com/dmfrancisco/Rails Bootstrap App Theme)
 Icons: FatCow (http://www.fatcow.com/free-icons)
 
 Fixing jQuery UI image paths: Mike Park (http://github.com/mikepinde/)
@@ -279,11 +299,11 @@ actually releasing the damn thing.
 
 ## License ##
 
-All original components of activo-rails are licensed under the MIT license:
+All original components of Rails Bootstrap App Theme-rails are licensed under the MIT license:
 
 Copyright (c) 2011, Blank Pad Development
 
-That doesn't cover the Activo theme itself, the FatCow icon set, or jQuery, which remain under their original licenses
+That doesn't cover the Rails Bootstrap App Theme theme itself, the FatCow icon set, or jQuery, which remain under their original licenses
 and the property of their original authors.
 
 

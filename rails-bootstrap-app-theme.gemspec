@@ -8,7 +8,7 @@ Gem::Specification.new do |s|
   s.name        = 'rails-bootstrap-app-theme'
   s.version     = RailsBootstrapAppTheme::VERSION
   s.authors     = ['Angus Miller']
-  s.email       = ['angus@shuntyard.co.za']
+  s.email       = ['all4miller@gmail.com']
   s.homepage    = 'TODO'
   s.summary     = 'TODO: Summary of RailsBootstrapAppTheme.'
   s.description = 'TODO: Description of RailsBootstrapAppTheme.'
@@ -18,8 +18,7 @@ Gem::Specification.new do |s|
 
   s.add_dependency 'rails', '~> 3.2.13'
   s.add_dependency 'sass-rails', '~> 3.2'
-  s.add_dependency 'bootstrap-sass', '~> 2.3.1.0'
+  s.add_dependency 'bootstrap-sass', '~> 2.3.2.0'
   s.add_dependency 'font-awesome-sass-rails'
   s.add_dependency 'rspec-rails'
-  s.add_dependency 'sqlite3'
 end

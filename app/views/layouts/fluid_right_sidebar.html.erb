@@ -29,8 +29,8 @@
       }
     </style>
 
-  <%= head if respond_to? :head %>
-  <%= yield :head %>
+    <%= head if respond_to? :head %>
+    <%= yield :head %>
   </head>
   <body>
 
@@ -39,8 +39,8 @@
         <div class="container-fluid">
           <%= navbar_brand{ |n| brand(n) } if respond_to?(:brand) %>
           <div class="nav-collapse collapse">
-            <%= navigation { |n| navbar_left(n) } if respond_to?(:left_navigation) %>
-            <%= navigation(:class => "pull-right") { |n| navbar_right(n) } if respond_to?(:right_navigation) %>
+            <%= navigation { |n| navbar_left(n) } if respond_to?(:navbar_left) %>
+            <%= navigation(:class => "pull-right") { |n| navbar_right(n) } if respond_to?(:navbar_right) %>
           </div><!--/.nav-collapse -->
         </div>
       </div>
@@ -53,6 +53,7 @@
         </div>
 
         <div class="span3">
+          <%= sidebar if respond_to? :sidebar %>
           <%= yield :sidebar %>
         </div>
 

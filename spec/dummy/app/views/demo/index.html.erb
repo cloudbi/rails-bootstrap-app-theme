@@ -1,0 +1,132 @@
+<% provide :title, "My Lovely Page" %>
+
+<h3 id="navbar">Nabvar</h3>
+
+<p>The left and right navbar areas at the top of the page are populated in the same way. The left
+navbar is the links on the left hand side, while the right navbar is the links on the right.</p>
+<p>
+To populate them create a helper called either <code>navbar_left</code> or <code>navbar_right</code>. The method
+will be passed a NavigationBuilder instance which can be filled with items.</p>
+<p>
+You can pass an image path as the first argument to a menu item to create an image based link. This is really easy using the icon helper, which gives access to all of the Font Awesome images.</p>
+
+<p>You can also provide a `brand` helper that be called to setup your sites main brand text and link.</p>
+
+<div class="navbar">
+  <div class="navbar-inner">
+    <div class="container">
+      <a class="brand" href="#">Brand</a>
+      <ul class="nav">
+        <li class="active">
+          <a href="#">Home</a>
+        </li>
+        <li><a href="#">News</a></li>
+      </ul>
+      <ul class="nav pull-right">
+        <li><a href="#">Profile</a></li>
+        <li><a href="/"><i class="icon-off"></i></a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<pre class='prettyprint linenums lang-ruby'>
+module ApplicationHelper
+  def navbar_left(menu)
+    menu.item 'Home', root_path
+    menu.item 'News', news_path, active: true
+  end
+
+  def navbar_right(menu)
+    menu.item 'Profile', profile_path
+    menu.item icon('icon-off'), destroy_user_session_path, method: :delete
+  end
+
+  def brand(link)
+    link.item 'Brand', root_path
+  end
+end
+</pre>
+
+<h3 id="sidebar">Sidebar</h3>
+
+<p>The sidebar is area the next main content, either on the right or left depending on the layout chosen.
+ To get content into the side you can by implenting a sidebar helper, the content of which will appear in the sidebar. </p>
+
+<pre class='prettyprint linenums lang-ruby'>
+module ApplicationHelper
+  def sidebar
+    render 'shared/sidebar'
+  end
+end
+</pre>
+
+<p>Or you can use a content_for block to specify a section of view code that must appear in the sidebar </p>
+
+<pre class='prettyprint linenums lang-erb'>
+&lt;% content_for :sidebar do %&gt;
+  ...
+&lt;% end %&gt;
+</pre>
+
+<p>There is also a <code>sidebar_navigation</code> helper that allows you create a vertical navigation list with headers a links.</p>
+
+
+<pre class='prettyprint linenums lang-erb'>
+&lt;%= sidebar_navigation do |nav| %&gt;
+  &lt;% nav.header "Sidebar Header" %&gt;
+  &lt;% nav.item "Category", new_person_path, class: 'active' %&gt;
+&lt;% end %&gt;
+</pre>
+
+<div class="row">
+  <div class="offset1 span3">
+    <ul class="nav nav-list">
+      <li class="nav-header">Sidebar header</li>
+      <li class="active"><a href="#">Category</a></li>
+    </ul>
+  </div>
+</div>
+
+
+<% provide :title, "Hello, world!" %>
+
+<%= content_box :headline => 'Hello, World!' do %>
+  <p>This is a basic Rails Bootstrap App Theme template.</p>
+<% end %>
+
+<% content_for :sidebar do %>
+
+  <%= sidebar_navigation class: 'well' do |nav| %>
+    <%= select "report", "month", month_range, class: 'nav-list' %>
+    <h4>Content from host block</h4>
+  <% end %>
+
+  <%= sidebar_navigation do |nav| %>
+    <% nav.header "Layout" %>
+    <% nav.item "Navbar", '#navbar' %>
+    <% nav.item "Sidebar", '#sidebar' %>
+    <% nav.header "View Helpers" %>
+    <% nav.item "Content Box", root_path %>
+    <% nav.item "Search", root_path %>
+    <% nav.header "Sidebar Header" %>
+    <% nav.item "New Person", root_path %>
+    <% nav.item "Search", root_path %>
+    <% nav.header "Sidebar Header" %>
+    <% nav.item "New Person", root_path %>
+    <% nav.item "Search", root_path %>
+  <% end %>
+
+<% end %>
+
+
+<% content_for :js do %>
+  <script>
+  !function ($) {
+    $(function(){
+      // make code pretty
+      window.prettyPrint && prettyPrint()
+    })
+  }(window.jQuery)
+  </script>
+<% end %>

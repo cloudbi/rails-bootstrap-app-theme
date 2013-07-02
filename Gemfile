@@ -1,4 +1,4 @@
-source "http://rubygems.org"
+source 'http://rubygems.org'
 
 # Declare your gem's dependencies in rails-bootstrap-app-theme.gemspec.
 # Bundler will treat runtime dependencies like base dependencies, and
@@ -6,8 +6,8 @@ source "http://rubygems.org"
 gemspec
 
 # jquery-rails is used by the dummy application
-gem "jquery-rails"
-
+gem 'jquery-rails'
+gem 'quiet_assets'
 # Declare any dependencies that are still in development here instead of in
 # your gemspec. These might include edge Rails or gems from your path or
 # Git. Remember to move these dependencies to your gemspec before releasing

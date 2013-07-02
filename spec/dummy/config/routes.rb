@@ -1,5 +1,3 @@
 Rails.application.routes.draw do
-  resources :posts
-
-  root to: 'posts#index'
+  root :to => 'demo#index'
 end

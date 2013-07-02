@@ -1,20 +1,18 @@
 module ApplicationHelper
   def navbar_left(menu)
-    menu.item 'Home', posts_path
-    menu.item 'Dashboard', posts_path, :active => controller.controller_name == 'departments'
-    menu.item 'Account Mappings', posts_path, :active => controller.controller_name == 'accounts'
-    menu.item 'Measures', posts_path, :active => controller.controller_name == 'measures'
+    menu.item 'Navbar', '#navbar', active: true
+    menu.item 'Sidebar', '#sidebar'
+    menu.item 'Account Mappings', root_path, :active => controller.controller_name == 'accounts'
+    menu.item 'Measures', root_path, :active => controller.controller_name == 'measures'
   end
 
   def navbar_right(menu)
-    menu.item 'Home', posts_path
-    menu.item 'Dashboard', posts_path, :active => controller.controller_name == 'departments'
-    menu.item 'Account Mappings', posts_path, :active => controller.controller_name == 'accounts'
-    menu.item icon('icon-off'), posts_path, :active => controller.controller_name == 'measures'
+    menu.item 'username@email.com', root_path
+    menu.item icon('icon-off'), root_path, :active => controller.controller_name == 'measures'
   end
 
   def brand(link)
-    link.item 'Project XXXX', posts_path
+    link.item 'Brand', root_path
   end
 
   def month_range
