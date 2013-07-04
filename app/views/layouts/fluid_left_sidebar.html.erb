@@ -32,7 +32,7 @@
     <%= head if respond_to? :head %>
     <%= yield :head %>
   </head>
-  <body>
+  <body class="<%= body if respond_to? :body %>">
 
     <div class="navbar navbar-fixed-top">
       <div class="navbar-inner">
