@@ -34,18 +34,20 @@
   </head>
   <body class="<%= body if respond_to? :body %>">
 
-    <div class="navbar navbar-fixed-top">
-      <div class="navbar-inner">
-        <div class="container-fluid">
-          <%= navbar_brand{ |n| brand(n) } if respond_to?(:brand) %>
-          <div class="nav-collapse collapse">
-            <%= navigation { |n| navbar_left(n) } if respond_to?(:navbar_left) %>
-            <%= navigation(:class => "pull-right") { |n| navbar_right(n) } if respond_to?(:navbar_right) %>
-          </div><!--/.nav-collapse -->
+    <% if respond_to?(:navbar) && navbar  %> 
+      <div class="navbar navbar-fixed-top">
+        <div class="navbar-inner">
+          <div class="container-fluid">
+            <%= navbar_brand{ |n| brand(n) } if respond_to?(:brand) %>
+            <div class="nav-collapse collapse">
+              <%= navigation { |n| navbar_left(n) } if respond_to?(:navbar_left) %>
+              <%= navigation(:class => "pull-right") { |n| navbar_right(n) } if respond_to?(:navbar_right) %>
+            </div><!--/.nav-collapse -->
+          </div>
         </div>
       </div>
-    </div>
-
+    <% end %>
+      
     <div class="container-fluid">
       <div class="row-fluid">
         <div class="span12 main-content">
