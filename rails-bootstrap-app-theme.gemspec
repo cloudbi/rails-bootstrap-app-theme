@@ -13,7 +13,7 @@ Gem::Specification.new do |s|
   s.summary     = 'Basic web app theme using twitter bootstrap'
   s.description = 'This gem provides common layouts built using twitter boostrap. It alsp provides a collection of helpers the assit with common tasks like building navbars and sidebars'
 
-  s.files = Dir['{app,config,db,lib}/**/*'] + ['MIT-LICENSE', 'Rakefile', 'README.rdoc']
+  s.files = Dir['{app,config,db,lib}/**/*'] + ['MIT-LICENSE', 'Rakefile', 'README.md']
   s.test_files = Dir['spec/**/*']
 
   s.add_dependency 'rails', '~> 3.2.13'
