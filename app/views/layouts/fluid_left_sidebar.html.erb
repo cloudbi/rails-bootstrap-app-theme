@@ -39,7 +39,7 @@
   </head>
   <body class="<%= body if respond_to? :body %>">
 
-    <% if respond_to?(:navbar) && navbar  %> 
+    <% if respond_to?(:navbar) && navbar  %>
       <div class="navbar navbar-fixed-top">
         <div class="navbar-inner">
           <div class="container-fluid">
@@ -51,8 +51,8 @@
           </div>
         </div>
       </div>
-    <% end %>  
-      
+    <% end %>
+
     <div class="container-fluid">
       <div class="row-fluid">
         <div class="span3 sidebar">
@@ -67,6 +67,7 @@
     </div><!--/.fluid-container-->
 
     <%= javascript_include_tag "application" %>
+    <%= javascript if respond_to? :javascript %>
     <%= yield :js %>
     <%= yield :js2 %>
   </body>
