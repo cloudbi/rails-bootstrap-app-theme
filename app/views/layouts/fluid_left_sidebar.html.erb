@@ -37,7 +37,7 @@
     <%= head if respond_to? :head %>
     <%= yield :head %>
   </head>
-  <body class="<%= body if respond_to? :body %>">
+  <body class="<%= body if respond_to? :body %>" data-no-turbolink="<%= turbolink if respond_to? :turbolink %>">
 
     <% if respond_to?(:navbar) && navbar  %>
       <div class="navbar navbar-fixed-top">

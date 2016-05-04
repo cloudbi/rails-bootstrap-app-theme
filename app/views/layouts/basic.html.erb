@@ -18,7 +18,7 @@
     <%= head if respond_to? :head %>
     <%= yield :head %>
   </head>
-  <body class="<%= body if respond_to? :body %> main-content">
+  <body class="<%= body if respond_to? :body %> main-content" data-no-turbolink="<%= turbolink if respond_to? :turbolink %>">
     <%= yield %>
 
     <%= javascript_include_tag "application" %>
