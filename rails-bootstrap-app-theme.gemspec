@@ -16,8 +16,8 @@ Gem::Specification.new do |s|
   s.files = Dir['{app,config,db,lib}/**/*'] + ['MIT-LICENSE', 'Rakefile', 'README.md']
   s.test_files = Dir['spec/**/*']
 
-  s.add_dependency 'rails', '~> 3.2.13'
-  s.add_dependency 'sass-rails', '~> 3.2'
+  s.add_dependency 'rails', '4.2.0'
+  s.add_dependency 'sass-rails', '~> 5.0'
   s.add_dependency 'bootstrap-sass', '~> 2.3.2.0'
   s.add_dependency 'font-awesome-sass-rails'
   s.add_dependency 'rspec-rails'
