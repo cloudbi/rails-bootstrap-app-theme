@@ -16,10 +16,10 @@
     <%= head if respond_to? :head %>
     <%= yield :head %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track' => 'reload', 'data-turbolinks' => true  %>
+    <%= javascript if respond_to? :javascript %>
   </head>
   <body class="<%= body if respond_to? :body %> main-content" data-turbolinks="<%= turbolink if respond_to? :turbolink %>">
     <%= yield %>
-    <%= javascript if respond_to? :javascript %>
     <%= yield :js %>
     <%= yield :js2 %>
   </body>
