@@ -11,10 +11,8 @@
     <!--[if lt IE 9]>
       <script src="https://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
-
     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => 'reload', 'data-turbolinks' => true %>
     <%= csrf_meta_tags %>
-
     <style type="text/css">
       body {
         padding-top: 60px;
@@ -33,9 +31,9 @@
         }
       }
     </style>
-
     <%= head if respond_to? :head %>
     <%= yield :head %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track' => 'reload', 'data-turbolinks' => true  %>
   </head>
   <body class="<%= body if respond_to? :body %>" data-turbolinks="<%= turbolink if respond_to? :turbolink %>">
 
@@ -66,7 +64,6 @@
 
     </div><!--/.fluid-container-->
 
-    <%= javascript_include_tag 'application', 'data-turbolinks-track' => 'reload', 'data-turbolinks' => true  %>
     <%= javascript if respond_to? :javascript %>
     <%= yield :js %>
     <%= yield :js2 %>
