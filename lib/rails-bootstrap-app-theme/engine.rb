@@ -1,6 +1,6 @@
 require 'rails-bootstrap-app-theme/helper'
 require 'bootstrap-sass'
-require 'font-awesome-sass-rails'
+require 'font-awesome-rails'
 
 module RailsBootstrapAppTheme
   class Engine < ::Rails::Engine
